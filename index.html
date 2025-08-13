@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <title>Minesweeper</title>
+</head>
+
+<body>
+    <main>
+        <div class="container">
+            <div class="counters">
+                <div id="mines-n">--</div>
+                <div id="timer">00:00</div>
+            </div>
+            <div class="boxes"></div>
+            <div class="controls">
+                <button onclick="resetGame()">
+                    <img src="/assets/happy.png" alt="New Game">
+                </button>
+            </div>
+        </div>
+        <div class="logs">
+            <h2>Logs <button onclick="clearLogs()">Clear Logs</button></h2>
+            <ul id="logs"></ul>
+        </div>
+    </main>
+    <script src="app.js"></script>
+</body>
+
+</html>
