@@ -109,7 +109,7 @@ const startTimer = () => {
 
         document.querySelector('#timer').textContent = `${formattedMinutes}:${formattedSeconds}`;
     }, 1000);
-}
+};
 
 const showLogs = () => {
     const logs = (localStorage.getItem('logs') ? JSON.parse(localStorage.getItem('logs')) : []).reverse();
@@ -132,7 +132,7 @@ const showLogs = () => {
     }
 
     logsContainer.innerHTML = content;
-}
+};
 
 const addLog = (status, time, numberOfMines) => {
     const logs = localStorage.getItem('logs') ? JSON.parse(localStorage.getItem('logs')) : [];
@@ -146,14 +146,14 @@ const addLog = (status, time, numberOfMines) => {
 
     localStorage.setItem('logs', JSON.stringify(logs));
     showLogs();
-}
+};
 
 const clearLogs = () => {
     if (confirm('Are you sure you want to clear the logs?')) {
         localStorage.removeItem('logs');
         showLogs();
     }
-}
+};
 
 const setNumberOfFlags = () => {
     const noMines = document.querySelector('#mines-n');
@@ -186,7 +186,28 @@ const checkWinOrGameOver = (posX, posY, checkGameOver = true) => {
         resetGame();
         return;
     }
-}
+};
+
+const clearArea = (posX, posY) => {
+    if (boxes[posX][posY].isOpened || boxes[posX][posY].isFlagged) return;
+
+    boxes[posX][posY].isOpened = true;
+
+    const content = boxes[posX][posY].content;
+    if (content && content != '' && content != ' ') return;
+
+    const poses = [
+        [posX - 1, posY - 1], [posX - 1, posY], [posX - 1, posY + 1],
+        [posX, posY - 1], [posX, posY + 1],
+        [posX + 1, posY - 1], [posX + 1, posY], [posX + 1, posY + 1]
+    ];
+
+    for (const [xPos, yPos] of poses) {
+        if (xPos >= 0 && xPos < y && yPos >= 0 && yPos < x) {
+            clearArea(xPos, yPos);
+        }
+    }
+};
 
 const openBox = (id) => {
     if (!isGameStarted) {
@@ -196,6 +217,9 @@ const openBox = (id) => {
 
     const posX = parseInt(id.split('-')[0]);
     const posY = parseInt(id.split('-')[1]);
+    const content = boxes[posX][posY].content;
+
+    if ((!content && (content == ' ' || content == '')) && !boxes[posX][posY].isOpened && !boxes[posX][posY].isMine) clearArea(posX, posY);
 
     boxes[posX][posY].isOpened = true;
 
